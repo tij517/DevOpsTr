@@ -1,0 +1,8 @@
+FROM ubuntu:18.04
+ADD requirements.txt app.py
+RUN mv app.py /opt/webapp
+RUN mv requirements.txt /tmp
+RUN apt install python-all, python-pip -y
+RUN pip install -qr requirements.txt
+EXPOSE 5000
+CMD ["python3", "/opt/webapp/app.py"]
