@@ -1,0 +1,22 @@
+---
+version: '3'
+services:
+        maven:
+            build:
+                context: ./
+                dockerfile: maven.Dockerfile
+            volumes:
+                - war-files:/boxfuse-sample-java-war-hello/target
+
+
+        tomcat:
+            image: tomcat:9.0
+            ports:
+                - '80:80'
+                - '443:443'
+            depends_on:
+                - maven
+            volumes:
+              - war-files:/var/lib/tomcat9/webapps/
+volumes:
+  war-files:
