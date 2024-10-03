@@ -1,0 +1,23 @@
+---
+version: '3'
+services:
+        maven:
+            build:
+                context: ./
+                dockerfile: maven.Dockerfile
+            volumes:
+                - war-files:/boxfuse-sample-java-war-hello/target
+
+
+        tomcat:
+            build:
+                context: ./
+                dockerfile: alpine.Dockerfile
+            ports:
+                - '8080:8080'
+            depends_on:
+                - maven
+            volumes:
+              - war-files:/usr/local/tomcat/webapps/
+volumes:
+  war-files:
