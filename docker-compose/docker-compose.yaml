@@ -12,8 +12,7 @@ services:
         tomcat:
             image: tomcat:9.0
             ports:
-                - '80:80'
-                - '443:443'
+                - '8080:8080'
             depends_on:
                 - maven
             volumes:
