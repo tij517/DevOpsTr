@@ -17,6 +17,6 @@ services:
             depends_on:
                 - maven
             volumes:
-              - war-files:/var/lib/tomcat9/webapps/
+              - war-files:/usr/local/tomcat/webapps/
 volumes:
   war-files:
