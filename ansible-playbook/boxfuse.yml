@@ -1,45 +1,44 @@
 ---
-- name: prepare builder
+- name: Provisioning builder
   hosts: web
   become: yes
 
   tasks:
-  - name: Ensure Java and Maven are installed
-    apt:
-      name:
+    - name: Ensure Java and Maven are installed
+      apt:
+        name:
           - openjdk-11-jdk
           - maven
           - git
-      state: present
+        state: present
 
-- name: Clone project
-  git:
-    repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
-    dest: /root/
+    - name: Clone project
+      git:
+        repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+        dest: /root/
 
+    - name: Maven package
+      shell: mvn package
+      args:
+        chdir: /root/boxfuse-sample-java-war-hello
 
-- name: Maven package
-    shell: mvn package
-    args:
-     chdir: /root/boxfuse-sample-java-war-hello
+    - name: Fetch .war files from source server
+      fetch:
+        src: /root/boxfuse-sample-java-war-hello/target/hello-1.0.war
+        dest: /home/artem/war_files/
+        flat: yes
 
-  - name: Fetch .war files from source server
-    fetch:
-      src: /root/boxfuse-sample-java-war-hello/target/hello-1.0.war
-      dest: /home/artem/war_files/
-      flat: yes
-
-- name: production
+- name: Production
   hosts: db
   become: yes
 
   tasks:
-  - name: Ensure tomcat is installed
-    apt:
-     name: tomcat9
-     state: present
+    - name: Ensure Tomcat is installed
+      apt:
+        name: tomcat9
+        state: present
 
-  - name: Copy .war files to destination server
-    copy:
-      src: /home/artem/war_files/hello-1.0.war
-      dest: /var/lib/tomcat9/webapps/
+    - name: Copy .war files to destination server
+      copy:
+        src: /home/artem/war_files/hello-1.0.war
+        dest: /var/lib/tomcat9/webapps
