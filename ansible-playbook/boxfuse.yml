@@ -1,0 +1,39 @@
+---
+- name: prepare builder
+  hosts: web
+  become: yes
+
+  tasks:
+  - name: Ensure Java and Maven are installed
+    apt:
+      name:
+          - openjdk-11-jdk
+          - maven
+      state: present
+
+  - name: Clone project
+    shell: git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+
+  - name: maven package
+    shell: mvn package
+
+  - name: Fetch .war files from source server
+    fetch:
+      src: boxfuse-sample-java-war-hello/target/*.war
+      dest: /home/artem/war_files
+      flat: yes
+
+- name: production
+  hosts: db
+  become: yes
+
+  tasks:
+  - name: Ensure tomcat is installed
+    apt:
+     name: tomcat9
+     state: present
+
+  - name: Copy .war files to destination server
+    copy:
+      src: /home/artem/war_files
+      dest: /var/lib/tomcat9/webapps
