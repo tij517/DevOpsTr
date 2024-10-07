@@ -12,10 +12,13 @@
           - git
       state: present
 
-  - name: Clone project
-    shell: git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+- name: Clone project
+  git:
+    repo: https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
+    dest: /root/
 
-  - name: Maven package
+
+- name: Maven package
     shell: mvn package
     args:
      chdir: /root/boxfuse-sample-java-war-hello
