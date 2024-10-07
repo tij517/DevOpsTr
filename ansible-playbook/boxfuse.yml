@@ -15,8 +15,10 @@
   - name: Clone project
     shell: git clone https://github.com/boxfuse/boxfuse-sample-java-war-hello.git
 
-  - name: maven package
+  - name: Maven package
     shell: mvn package
+    args:
+     chdir: /root/boxfuse-sample-java-war-hello
 
   - name: Fetch .war files from source server
     fetch:
