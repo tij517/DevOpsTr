@@ -22,7 +22,7 @@
 
   - name: Fetch .war files from source server
     fetch:
-      src: boxfuse-sample-java-war-hello/target/*.war
+      src: /root/boxfuse-sample-java-war-hello/target/*.war
       dest: /home/artem/war_files
       flat: yes
 
