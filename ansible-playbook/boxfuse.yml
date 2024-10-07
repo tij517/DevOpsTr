@@ -9,6 +9,7 @@
       name:
           - openjdk-11-jdk
           - maven
+          - git
       state: present
 
   - name: Clone project
