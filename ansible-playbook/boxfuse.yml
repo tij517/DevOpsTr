@@ -23,7 +23,7 @@
   - name: Fetch .war files from source server
     fetch:
       src: /root/boxfuse-sample-java-war-hello/target/hello-1.0.war
-      dest: /home/artem/war_files
+      dest: /home/artem/war_files/
       flat: yes
 
 - name: production
@@ -38,5 +38,5 @@
 
   - name: Copy .war files to destination server
     copy:
-      src: /home/artem/war_files
-      dest: /var/lib/tomcat9/webapps
+      src: /home/artem/war_files/hello-1.0.war
+      dest: /var/lib/tomcat9/webapps/
